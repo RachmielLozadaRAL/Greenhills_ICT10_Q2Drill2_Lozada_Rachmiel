@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- PyScript JavaScript -->
+    <script type="module" src="https://pyscript.net/releases/2026.7.2/core.js"></script>
+    <!-- PyScript CSS -->
+    <link href="https://pyscript.net/releases/2026.7.2/core.css" rel="stylesheet" />
+    <title>Seatwork 1</title>
+
+    <!-- ADDED DESIGN ONLY -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            font-family: 'Inter', sans-serif;
+            color: #172554;
+            background-color: #f3f6fc;
+            background-image:
+                linear-gradient(rgba(37, 99, 235, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(37, 99, 235, 0.045) 1px, transparent 1px);
+            background-size: 32px 32px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Decorative mathematical symbols */
+        body::before {
+            content: "∑";
+            position: fixed;
+            top: 8%;
+            left: 8%;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(100px, 15vw, 200px);
+            font-weight: 700;
+            color: rgba(37, 99, 235, 0.055);
+            pointer-events: none;
+            transform: rotate(-12deg);
+        }
+
+        body::after {
+            content: "π";
+            position: fixed;
+            right: 9%;
+            bottom: 5%;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(120px, 18vw, 240px);
+            font-weight: 700;
+            color: rgba(37, 99, 235, 0.055);
+            pointer-events: none;
+            transform: rotate(10deg);
+        }
+
+        h1 {
+            width: min(100%, 560px);
+            margin: 0;
+            padding: 36px 32px 16px;
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 5vw, 40px);
+            line-height: 1.2;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            color: #ffffff;
+            background: #142b59;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            isolation: isolate;
+            box-shadow: 0 12px 35px rgba(15, 35, 75, 0.12);
+        }
+
+        h1::before {
+            content: "M A T H   C L U B  •  STUDENT DIRECTORY";
+            display: block;
+            margin-bottom: 18px;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            line-height: 1.5;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #93c5fd;
+        }
+
+        h1::after {
+            content: "Identify. Verify. Excel.";
+            display: block;
+            margin-top: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.4px;
+            color: #cbd5e1;
+        }
+
+        form {
+            width: min(100%, 560px);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 26px 32px 32px;
+            background: #ffffff;
+            border-radius: 0 0 20px 20px;
+            border: 1px solid #e2e8f0;
+            border-top: 3px solid #3b82f6;
+            box-shadow: 0 20px 50px rgba(15, 35, 75, 0.10);
+            position: relative;
+            z-index: 1;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            outline: none;
+            background: #f8fafc;
+            color: #172554;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            transition: border-color 0.2s, box-shadow 0.2s,
+                        background-color 0.2s;
+        }
+
+        input[type="text"]::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        input[type="text"]:focus {
+            background: #ffffff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+        }
+
+        input[type="button"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            box-shadow: 0 5px 12px rgba(37, 99, 235, 0.20);
+            transition: background-color 0.2s, transform 0.2s,
+                        box-shadow 0.2s;
+        }
+
+        input[type="button"]:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+        }
+
+        input[type="button"]:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.18);
+        }
+
+        #output {
+            width: min(100%, 560px);
+            margin-top: 20px;
+            padding: 20px 24px;
+            border-radius: 14px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #2563eb;
+            box-shadow: 0 8px 24px rgba(15, 35, 75, 0.06);
+            color: #334155;
+            font-size: 14px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+            position: relative;
+            z-index: 1;
+        }
+
+        #output:empty {
+            display: none;
+        }
+
+        /* Mobile-friendly layout */
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 16px;
+            }
+
+            h1 {
+                padding: 28px 20px 14px;
+                border-radius: 16px 16px 0 0;
+            }
+
+            h1::before {
+                font-size: 9px;
+                letter-spacing: 1.5px;
+            }
+
+            form {
+                padding: 22px 20px 24px;
+                border-radius: 0 0 16px 16px;
+            }
+
+            #output {
+                padding: 18px;
+            }
+        }
+    </style>
+    <!-- END OF ADDED DESIGN -->
+
+</head>
+<body>
+    <h1>Math Club Checker</h1>
+    <form>
+        <input type="text" id="student_name" placeholder="Enter student last name">
+        <input type="button" py-click="student_guild" value="Search">
+    </form>
+    <div id="output"></div>
+    <py-script src="main.py"></py-script>
+</body>
+</html>
